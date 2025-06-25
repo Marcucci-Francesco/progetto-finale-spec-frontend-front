@@ -4,6 +4,7 @@ import VideoBackground from '../components/VideoBackground'
 const HomePage = () => {
   return (
     <VideoBackground>
+
     </VideoBackground>
   )
 }
