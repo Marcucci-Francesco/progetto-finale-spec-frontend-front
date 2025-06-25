@@ -1,10 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
-
-const Header = () => {
-  return (
-    <div>Header</div>
-=======
 import { Link } from 'react-router-dom'
 
 const Header = () => {
@@ -22,7 +16,6 @@ const Header = () => {
         </div>
       </div>
     </header>
->>>>>>> f0ded2d (Nuovo inizio)
   )
 }
 
