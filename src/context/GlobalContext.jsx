@@ -5,14 +5,12 @@ const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
   const [cars, setCars] = useState([]);
-  const [car, setCar] = useState({});
+  const [car, setCar] = useState(null);
   const [favorites, setFavorites] = useState([]);
+  const [garage, setGarage] = useState([]);
+
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('favorites')) || [];
-    setFavorites(stored);
-  }, []);
 
   const fetchCars = async () => {
     try {
@@ -26,24 +24,56 @@ const GlobalProvider = ({ children }) => {
 
   const fetchCar = async (id) => {
     try {
-      const { data } = await axios.get(`${apiUrl}/carses/${id}`);
-      setCar(data);
+      const res = await fetch(`${apiUrl}/carses/${id}`);
+      const data = await res.json();
+
+      // Salviamo solo l’oggetto car vero
+      setCar(data.cars);
     } catch (err) {
-      console.error('Errore nel caricamento auto:', err);
+      console.error('Errore durante il caricamento della singola auto:', err);
     }
   };
 
-  const toggleFavorites = (car) => {
+
+  const toggleFavorites = (carId) => {
     setFavorites((prev) => {
-      const isFav = prev.some((f) => f.id === car.id);
-      const updated = isFav ? prev.filter((f) => f.id !== car.id) : [...prev, car];
+      const isFav = prev.includes(carId);
+      const updated = isFav ? prev.filter((id) => id !== carId) : [...prev, carId];
       localStorage.setItem('favorites', JSON.stringify(updated));
       return updated;
     });
   };
 
+  const addToGarage = (carId) => {
+    setGarage((prev) => {
+      const updated = [...new Set([...prev, carId])];
+      localStorage.setItem('garage', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const removeFromGarage = (carId) => {
+    setGarage((prev) => {
+      const updated = prev.filter((id) => id !== carId);
+      localStorage.setItem('garage', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const value = {
+    cars,
+    car,
+    favorites,
+    garage,
+    fetchCars,
+    fetchCar,
+    toggleFavorites,
+    addToGarage,
+    removeFromGarage,
+  };
+
   return (
-    <GlobalContext.Provider value={{ cars, fetchCars, fetchCar, car, favorites, toggleFavorites }}>
+    <GlobalContext.Provider value={value}>
       {children}
     </GlobalContext.Provider>
   );
@@ -52,4 +82,3 @@ const GlobalProvider = ({ children }) => {
 const useGlobalContext = () => useContext(GlobalContext);
 
 export { GlobalProvider, useGlobalContext };
-
