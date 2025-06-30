@@ -8,6 +8,7 @@ const HomePage = () => {
 
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
+  const [sortOrder, setSortOrder] = useState('asc');
   const [filtered, setFiltered] = useState([]);
   const [showList, setShowList] = useState(false);
 
@@ -32,9 +33,14 @@ const HomePage = () => {
       );
     }
 
+    list = [...list].sort((a, b) => {
+      const res = a.title.localeCompare(b.title, 'it', { sensitivity: 'base' });
+      return sortOrder === 'asc' ? res : -res;
+    });
+
     setFiltered(list);
     setShowList(query.trim().length > 0 || category !== 'all');
-  }, [cars, query, category]);
+  }, [cars, query, category, sortOrder]);
 
   const categories = [
     { label: 'Tutte le categorie', value: 'all' },
@@ -74,6 +80,15 @@ const HomePage = () => {
                   {cat.label}
                 </option>
               ))}
+            </select>
+
+            <select
+              className="form-select"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
+              <option value="asc">A → Z</option>
+              <option value="desc">Z → A</option>
             </select>
           </div>
 

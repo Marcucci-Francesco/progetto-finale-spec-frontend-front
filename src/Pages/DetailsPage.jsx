@@ -1,24 +1,24 @@
-// src/pages/DetailsPage.jsx
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useGlobalContext } from '../context/GlobalContext';
-import VideoBackground from '../components/VideoBackground';
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGlobalContext } from "../context/GlobalContext";
+import VideoBackground from "../components/VideoBackground";
 
 const DetailsPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const {
     car,
     fetchCar,
-    toggleFavorites,
     addToGarage,
     removeFromGarage,
-    favorites,
     garage,
   } = useGlobalContext();
+
 
   useEffect(() => {
     if (id) fetchCar(id);
   }, [id]);
+
 
   if (!car) {
     return (
@@ -39,54 +39,96 @@ const DetailsPage = () => {
     nationality,
     price,
     description,
+    transmission,
+    transmissionRatios,
+    fuel,
+    horsepower,
+    doors,
+    topSpeed,
   } = car;
 
-  const isFavorite = favorites.includes(carId);
   const inGarage = garage.includes(carId);
 
   return (
     <VideoBackground>
-      <div className="container d-flex justify-content-center align-items-center min-vh-100 py-5">
-        <div className="card shadow-lg overflow-hidden" style={{ maxWidth: '900px', width: '100%' }}>
-          <div className="row g-0">
+      <div className="container d-flex flex-column align-items-start min-vh-100 py-5 mt-5">
+
+        <button
+          type="button"
+          className="btn btn-secondary mb-4 d-flex align-items-center gap-2 mt-4"
+          onClick={() => navigate(-1)}
+        >
+          <span className="fs-5">&#8592;</span>
+          <span>Indietro</span>
+        </button>
+
+        <div
+          className="card shadow-lg w-100"
+          style={{ maxWidth: "1200px", height: "60vh" }}
+        >
+          <div className="row g-0 h-100">
+
             <div className="col-md-6">
               <img
                 src={image}
                 alt={title}
-                className="img-fluid h-100 w-100"
-                style={{ objectFit: 'cover' }}
+                className="img-fluid w-100 h-100"
+                style={{ objectFit: "cover" }}
               />
             </div>
-            <div className="col-md-6 d-flex align-items-center">
-              <div className="card-body">
-                <h2 className="card-title">{title}</h2>
 
-                <ul className="list-inline text-muted mb-3">
-                  <li className="list-inline-item"><strong>Categoria:</strong> {category}</li>
-                  <li className="list-inline-item"><strong>Anno:</strong> {releaseYear}</li>
-                  <li className="list-inline-item"><strong>Nazionalità:</strong> {nationality}</li>
-                  <li className="list-inline-item">
-                    <strong>Prezzo:</strong> € {price?.toLocaleString('it-IT') ?? 'n.d.'}
+            <div className="col-md-6 d-flex flex-column h-100">
+              <div className="flex-grow-1 overflow-auto p-4">
+                <h2 className="card-title mb-3">{title}</h2>
+
+                <ul className="list-group text-muted mb-3">
+                  <li className="list-group-item">
+                    <strong>Categoria:</strong> {category}
+                  </li>
+                  <li className="list-group-item">
+                    <strong>Anno:</strong> {releaseYear}
+                  </li>
+                  <li className="list-group-item">
+                    <strong>Nazionalità:</strong> {nationality}
+                  </li>
+                  <li className="list-group-item">
+                    <strong>Prezzo:</strong> € {price?.toLocaleString("it-IT") ?? "n.d."}
                   </li>
                 </ul>
 
-                <p className="card-text">{description}</p>
+                <h4>Descrizione</h4>
+                <p>{description}</p>
 
-                <div className="d-flex gap-2 mt-4">
-                  <button
-                    onClick={() => toggleFavorites(carId)}
-                    className={`btn ${isFavorite ? 'btn-danger' : 'btn-outline-secondary'}`}
-                  >
-                    {isFavorite ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}
-                  </button>
+                <h4>Dettagli tecnici</h4>
+                <ul className="list-group text-muted mb-4">
+                  <li className="list-group-item">
+                    <strong>Alimentazione:</strong> {fuel}
+                  </li>
+                  <li className="list-group-item">
+                    <strong>Cambio:</strong> {transmission}
+                  </li>
+                  <li className="list-group-item">
+                    <strong>Rapporti:</strong> {transmissionRatios ?? 2}
+                  </li>
+                  <li className="list-group-item">
+                    <strong>Potenza:</strong> {horsepower} CV
+                  </li>
+                  <li className="list-group-item">
+                    <strong>Velocità massima:</strong> {topSpeed} Km/h
+                  </li>
+                  <li className="list-group-item">
+                    <strong>Porte:</strong> {doors}
+                  </li>
+                </ul>
 
-                  <button
-                    onClick={() => inGarage ? removeFromGarage(carId) : addToGarage(carId)}
-                    className={`btn ${inGarage ? 'btn-warning' : 'btn-primary'}`}
-                  >
-                    {inGarage ? 'Rimuovi dal garage' : 'Aggiungi al garage'}
-                  </button>
-                </div>
+                <button
+                  className={`btn ${inGarage ? "btn-warning" : "btn-primary"}`}
+                  onClick={() =>
+                    inGarage ? removeFromGarage(carId) : addToGarage(carId)
+                  }
+                >
+                  {inGarage ? "Rimuovi dal garage" : "Aggiungi al garage"}
+                </button>
               </div>
             </div>
           </div>

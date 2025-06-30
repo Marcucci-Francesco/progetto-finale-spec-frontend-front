@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GlobalProvider } from './context/GlobalContext';
 import DefaultLayout from './Layouts/DefaultLayout';
 import DetailsPage from './Pages/DetailsPage';
+import GaragePage from './Pages/GaragePage';
+import ComparePage from './Pages/ComparePage';
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
           <Route element={<DefaultLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/cars/:id" element={<DetailsPage />} />
+            <Route path="/garage" element={<GaragePage />} />
+            <Route path="/compare" element={<ComparePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

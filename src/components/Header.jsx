@@ -10,10 +10,10 @@ const Header = () => {
         </div>
         <div className='d-flex gap-1 align-items-center justify-content-between' style={{ width: 400 }}>
           <div>
-            <Link className='text-decoration-none text-black btn btn-light' to={'/'}><h6 className='m-0'>CONFRONTA I MODELLI</h6></Link>
+            <Link className='text-decoration-none text-black btn btn-light' to={'/compare'}><h6 className='m-0'>CONFRONTA I MODELLI</h6></Link>
           </div>
           <div>
-            <Link className='text-decoration-none text-black btn btn-light' to={'/'}><h6 className='m-0'>IL TUO GARAGE</h6></Link>
+            <Link className='text-decoration-none text-black btn btn-light' to={'/garage'}><h6 className='m-0'>IL TUO GARAGE</h6></Link>
           </div>
         </div>
       </div>
