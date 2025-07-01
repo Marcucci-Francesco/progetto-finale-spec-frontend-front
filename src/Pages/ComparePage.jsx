@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import VideoBackground from "../components/VideoBackground";
 import { useGlobalContext } from "../context/GlobalContext";
 
-const ComparePage = () => {
+function ComparePage() {
   const { cars, fetchCars } = useGlobalContext();
 
   const [firstId, setFirstId] = useState("");
@@ -15,15 +16,29 @@ const ComparePage = () => {
   }, [cars.length, fetchCars]);
 
   useEffect(() => {
-    const findCar = (id) => cars.find((c) => c.id === Number(id)) || null;
-    setFirstCar(findCar(firstId));
-    setSecondCar(findCar(secondId));
-  }, [firstId, secondId, cars]);
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    async function loadDetails(id, setter) {
+      if (!id) return setter(null);
+      try {
+        const res = await fetch(`${apiUrl}/carses/${id}`);
+        const json = await res.json();
+        setter(json.car || json.cars || json);
+      } catch (err) {
+        console.error("Errore fetch dettaglio", err);
+        setter(null);
+      }
+    }
+
+    loadDetails(firstId, setFirstCar);
+    loadDetails(secondId, setSecondCar);
+  }, [firstId, secondId]);
 
   const renderDetails = (car) => {
     if (!car) return <p className="text-white">Seleziona un'auto</p>;
 
     const {
+      id,
       title,
       description,
       releaseYear,
@@ -33,38 +48,39 @@ const ComparePage = () => {
       topSpeed,
       fuel = [],
       transmission,
+      image,
     } = car;
 
     return (
-      <div className="text-white bg-dark bg-opacity-50 rounded p-3 h-100">
-        <h4 className="mb-3 text-center">{title}</h4>
-        <ul className="list-unstyled small mb-0">
-          <li>
-            <strong>Anno:</strong> {releaseYear ?? "n.d."}
-          </li>
-          <li>
-            <strong>Categoria:</strong> {category ?? "n.d."}
-          </li>
-          <li>
-            <strong>Prezzo:</strong> € {price ? price.toLocaleString("it-IT") : "n.d."}
-          </li>
-          <li>
-            <strong>Cavalli:</strong> {horsepower ?? "n.d."} CV
-          </li>
-          <li>
-            <strong>Velocità Max:</strong> {topSpeed ?? "n.d."} km/h
-          </li>
-          <li>
-            <strong>Alimentazione:</strong>{" "}
-            {Array.isArray(fuel) ? fuel.join(", ") : fuel || "n.d."}
-          </li>
-          <li>
-            <strong>Trasmissione:</strong> {transmission ?? "n.d."}
-          </li>
-          <li>
-            <strong>Descrizione:</strong> {description}
-          </li>
+      <div
+        className="text-white bg-dark bg-opacity-50 rounded p-3 d-flex flex-column"
+        style={{ maxHeight: "400px", overflowY: "auto" }}
+      >
+        <h2 className="mb-3 text-center">{title}</h2>
+
+        {image && (
+          <img
+            src={image}
+            alt={title}
+            className="img-fluid w-100 mb-3"
+            style={{ maxHeight: "320px", objectFit: "cover" }}
+          />
+        )}
+
+        <ul className="list-unstyled small mb-3">
+          <li><strong>Anno:</strong> {releaseYear}</li>
+          <li><strong>Categoria:</strong> {category}</li>
+          <li><strong>Prezzo:</strong> € {price ? price.toLocaleString("it-IT") : "null"}</li>
+          <li><strong>Cavalli:</strong> {horsepower} CV</li>
+          <li><strong>Velocità Max:</strong> {topSpeed} km/h</li>
+          <li><strong>Alimentazione:</strong> {Array.isArray(fuel) ? fuel.join(", ") : fuel || "null"}</li>
+          <li><strong>Trasmissione:</strong> {transmission}</li>
+          <li><strong>Descrizione:</strong> {description}</li>
         </ul>
+
+        <Link to={`/cars/${id}`} className="btn btn-primary mt-auto text-center">
+          Vai al dettaglio
+        </Link>
       </div>
     );
   };
@@ -72,7 +88,7 @@ const ComparePage = () => {
   return (
     <VideoBackground>
       <div className="container py-5 mt-5">
-        <h2 className="text-white text-center mb-5 mt-4">Confronta due auto</h2>
+        <h1 className="text-white text-center mb-5 mt-4">Confronta i modelli</h1>
 
         <div className="row mb-4">
           <div className="col-md-6 mb-3 mb-md-0">
@@ -89,6 +105,7 @@ const ComparePage = () => {
               ))}
             </select>
           </div>
+
           <div className="col-md-6">
             <select
               className="form-select"
@@ -112,6 +129,6 @@ const ComparePage = () => {
       </div>
     </VideoBackground>
   );
-};
+}
 
 export default ComparePage;

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const GlobalContext = createContext();
 
@@ -16,7 +16,8 @@ const GlobalProvider = ({ children }) => {
       const res = await fetch(`${apiUrl}/carses`);
       const data = await res.json();
 
-      setCars(data);
+      setCars(data.cars || data);
+
     } catch (err) {
       console.error('Errore nel fetch delle auto:', err);
     }
