@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className="text-center py-3 text-white">
+    <footer className="text-center py-3 text-white playfair">
       <div className="container">
         <small>
           © 2025 CarBattle. Tutti i diritti riservati.

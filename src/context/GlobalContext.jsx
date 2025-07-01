@@ -10,7 +10,6 @@ const GlobalProvider = ({ children }) => {
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
-
   const fetchCars = async () => {
     try {
       const res = await fetch(`${apiUrl}/carses`);
@@ -22,7 +21,6 @@ const GlobalProvider = ({ children }) => {
       console.error('Errore nel fetch delle auto:', err);
     }
   };
-
 
   const fetchCar = async (id) => {
     try {

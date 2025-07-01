@@ -53,7 +53,7 @@ function ComparePage() {
 
     return (
       <div
-        className="text-white bg-dark bg-opacity-50 rounded p-3 d-flex flex-column"
+        className="text-white bg-dark bg-opacity-50 rounded p-3 d-flex flex-column playfair"
         style={{ maxHeight: "400px", overflowY: "auto" }}
       >
         <h2 className="mb-3 text-center">{title}</h2>
@@ -87,7 +87,7 @@ function ComparePage() {
 
   return (
     <VideoBackground>
-      <div className="container py-5 mt-5">
+      <div className="container py-5 mt-5 playfair">
         <h1 className="text-white text-center mb-5 mt-4">Confronta i modelli</h1>
 
         <div className="row mb-4">

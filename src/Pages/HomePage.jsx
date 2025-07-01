@@ -57,8 +57,8 @@ const HomePage = () => {
 
   return (
     <VideoBackground>
-      <div className="d-flex flex-column justify-content-center align-items-center h-100 text-white px-3 text-center">
-        <h1 className="display-4 fw-bold mb-4">Benvenuto!</h1>
+      <div className="d-flex flex-column justify-content-center align-items-center h-100 text-white px-3 text-center playfair">
+        <h1 className="display-4 fw-bold mb-4">Insegui i tuoi sogni!</h1>
 
         <div className="w-100" style={{ maxWidth: '700px' }}>
           <div className="d-flex mb-3 gap-2">
@@ -108,7 +108,7 @@ const HomePage = () => {
                       key={item.id}
                       className="list-group-item d-flex justify-content-between align-items-center"
                     >
-                      <span>{item.title}</span>
+                      <span className='playfair'>{item.title}</span>
                       <Link to={`/cars/${item.id}`} className="btn btn-sm btn-primary">
                         Dettagli
                       </Link>
@@ -116,7 +116,7 @@ const HomePage = () => {
                   ))}
                 </ul>
               ) : (
-                <p className="text-white mt-3">Nessun risultato trovato.</p>
+                <p className="text-white mt-3 ">Nessun risultato trovato.</p>
               )
             )}
           </div>

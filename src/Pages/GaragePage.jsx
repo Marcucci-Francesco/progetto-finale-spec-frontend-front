@@ -41,7 +41,7 @@ const GaragePage = () => {
   if (loading) {
     return (
       <VideoBackground>
-        <h1 className="d-flex justify-content-center align-items-center min-vh-100 text-white">
+        <h1 className="d-flex justify-content-center align-items-center min-vh-100 text-white playfair">
           Caricamento garage...
         </h1>
       </VideoBackground>
@@ -51,7 +51,7 @@ const GaragePage = () => {
   if (garageCars.length === 0) {
     return (
       <VideoBackground>
-        <h1 className="d-flex justify-content-center align-items-center min-vh-100 text-white">
+        <h1 className="d-flex justify-content-center align-items-center min-vh-100 text-white playfair">
           Il tuo garage è vuoto.
         </h1>
       </VideoBackground>
@@ -61,7 +61,7 @@ const GaragePage = () => {
 
   return (
     <VideoBackground>
-      <div className="container mt-4 py-5">
+      <div className="container mt-4 py-5 playfair">
         <h2 className="text-white text-center mt-5 mb-4">IL TUO GARAGE</h2>
 
         <div className="row row-cols-1 row-cols-md-3 g-4">

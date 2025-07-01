@@ -23,7 +23,7 @@ const DetailsPage = () => {
   if (!car) {
     return (
       <VideoBackground>
-        <div className="d-flex justify-content-center align-items-center vh-100 text-white">
+        <div className="d-flex justify-content-center align-items-center vh-100 text-white playfair">
           <h4>Caricamento...</h4>
         </div>
       </VideoBackground>
@@ -51,7 +51,7 @@ const DetailsPage = () => {
 
   return (
     <VideoBackground>
-      <div className="container d-flex flex-column align-items-start min-vh-100 py-5 mt-5">
+      <div className="container d-flex flex-column align-items-start min-vh-100 py-5 mt-5 playfair">
 
         <button
           type="button"
